@@ -1,0 +1,7 @@
+Server Ignore
+
+# node.js
+/node_modules
+
+# Variables
+/vars
