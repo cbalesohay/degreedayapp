@@ -90,7 +90,8 @@ async function send(req, res) {
     })
     .exec()
     .then(function (users) {
-      storeData(users, WesternCherry, dayDegreeDay);
+      storeData(users, "WesternCherry", "dayDegreeDay");
+      storedData.WesternCherry.dayDegreeDay = Number(storedData.WesternCherry.dayDegreeDay.toFixed(2));
       res.json(storedData.WesternCherry.dayDegreeDay);
     })
     .catch(function (err) {
