@@ -1,8 +1,8 @@
+const require = createRequire(import.meta.url);
+require('dotenv').config();
 import { createRequire } from "module";
 import soacModel from "./model/Soac.js";
-const require = createRequire(import.meta.url);
 const express = require("express");
-require('dotenv').config();
 const MONGODB_URI = process.env.API_KEY;
 const mongoose = require("mongoose");
 const app = express();
@@ -77,6 +77,26 @@ app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 app.get("/getdata", sendData);
+app.get("/get", send);
+async function send(req, res) {
+  const results = await soacModel
+    .find({
+      device: 12,
+      id: 222,
+      time: {
+        $gte: new Date("2024-10-16").toISOString(),
+        $lt: new Date("2024-10-17").toISOString(),
+      },
+    })
+    .exec()
+    .then(function (users) {
+      storeData(users, WesternCherry, dayDegreeDay);
+      res.json(storedData.WesternCherry.dayDegreeDay);
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+}
 
 async function sendData(req, res) {
   let specificDate = req.body.date;

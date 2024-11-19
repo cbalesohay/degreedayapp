@@ -5,3 +5,6 @@ Server Ignore
 
 # Variables
 /vars
+
+# env
+.env
