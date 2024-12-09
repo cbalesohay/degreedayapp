@@ -3,9 +3,12 @@ require('dotenv').config();
 import { createRequire } from "module";
 import soacModel from "./model/Soac.js";
 const express = require("express");
+const bodyParser = require("body-parser");
 const MONGODB_URI = process.env.API_KEY;
 const mongoose = require("mongoose");
 const app = express();
+var cors = require('cors');
+app.use(cors());
 const PORT = 8080;
 const degreeDayType = {
   WesternCherry: {
@@ -72,32 +75,63 @@ mongoose.connection.on("connected", () => {
   console.log("Mongoose is connected!!!");
 });
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on https://degreedayapp.onrender.com:${PORT}`);
 });
 app.get("/getdata", sendData);
-app.get("/get", send);
-async function send(req, res) {
+app.post("/get", sendTest);
+
+async function sendTest(req, res) {
+  let specificDate = req.body.date;
+  let dayAfter = new Date(specificDate);
+  dayAfter.setDate(dayAfter.getDate() + 1);
+  let dayBefore = new Date(specificDate);
+  dayBefore.setDate(dayBefore.getDate() - 1);
+  let species = req.body.species;
+  let reqData = req.body.reqData;
   const results = await soacModel
     .find({
       device: 12,
       id: 222,
       time: {
-        $gte: new Date("2024-10-16").toISOString(),
-        $lt: new Date("2024-10-17").toISOString(),
+        $gte: new Date(specificDate).toISOString(),
+        $lt: new Date(dayAfter).toISOString(),
       },
     })
     .exec()
     .then(function (users) {
-      storeData(users, "WesternCherry", "dayDegreeDay");
-      storedData.WesternCherry.dayDegreeDay = Number(storedData.WesternCherry.dayDegreeDay.toFixed(2));
-      res.json(storedData.WesternCherry.dayDegreeDay);
+      console.log("Hello");
+      storeData(users, species, reqData);
+      if (reqData == "timeOfLow" || reqData == "timeOfHigh") {
+        storedData[species][reqData] = storedData[species][reqData].slice(
+          11,
+          16
+        );
+        res.json(storedData[species][reqData]);
+      } else {
+        storedData[species][reqData] = storedData[species][reqData].toFixed(2);
+        res.json(Number(storedData[species][reqData]));
+      }
+      res.json(users);
     })
     .catch(function (err) {
-      console.log(err);
+      // console.log(req.body);
     });
 }
+
+
+
+
+
+
+
+
+
+
+
 
 async function sendData(req, res) {
   let specificDate = req.body.date;
