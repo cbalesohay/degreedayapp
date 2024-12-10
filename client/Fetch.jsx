@@ -1,23 +1,35 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {useEffect, useState} from 'react';
-// const url = 'http://localhost:8080/get';
-// const url = '44.226.145.213/get'
 
-function Fetch() {
+const getCurrentDate = () => {
+  var date = new Date().getDate();
+  var month = new Date().getMonth() - 1;
+  var year = new Date().getFullYear();
+  //format: yyyy-mm-dd;
+  return year + '-' + month + '-' + date;
+};
+
+function Fetch({selectedDate}) {
   const [number, setNumber] = useState(null);
-  const [date, setDate] = useState('2024-10-16');
+  const [date, setDate] = useState(null);
   const [value, setValue] = useState(null);
   const [species, setSpecies] = useState('WesternCherry');
-  const [reqData, setReqData] = useState('dayDegreeDay');
   const [isLoading, setLoading] = useState(true);
 
-  const info = [
-    {date: '2024-10-16'},
-    {species: 'WesternCherry'},
-    {reqData: 'dayDegreeDay'},
-  ];
+  const info = {
+    date: date,
+    species: species,
+    reqData: 'dayDegreeDay',
+  };
   const data = [
     {
       value: '1',
@@ -46,7 +58,7 @@ function Fetch() {
   ];
 
   const getData = async () => {
-    const url = 'http://localhost:8080/get';
+    const url = 'https://degreedayapp.onrender.com/get';
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -59,58 +71,34 @@ function Fetch() {
       setNumber(json);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
-
   useEffect(() => {
+    setDate(getCurrentDate());
     getData();
-  }, []);
+    setLoading(false);
+    return () => {};
+  }, [species, date]);
 
-  // useEffect(() => {
-  //   let ignore = false;
-  //   const url = 'http://localhost:8080/get';
-  //   fetch(url, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(info),
-  //   })
-  //     .then(res => res.json())
-  //     .then(degreeDay => {
-  //       if (!ignore) {
-  //         setNumber(degreeDay);
-  //       }
-  //     })
-  //     // .catch(error => console.error(error));
-  //   return () => {
-  //     ignore = true;
-  //   };
-  // }, []);
   return (
     <>
-      <Dropdown
-        style={styles.dropdown}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={data}
-        maxHeight={300}
-        labelField="label"
-        valueField="value"
-        placeholder="Select an item"
-        value={value}
-        onChange={item => {
-          setValue(item.value);
-          setSpecies(item.species);
-          setReqData(item.reqData);
-        }}
-      />
-      {/* <Text>{number ?? 'Loading...'}</Text> */}
-      <Text>{number}</Text>
+      {data.map((item, index) => (
+        <Button
+          key={index}
+          title={item.label}
+          onPress={() => {
+            console.log(item.species);
+            setValue(item.value);
+            setSpecies(item.species);
+          }}/>
+      ))}
+      <View style={styles.container}>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={styles.degreeDays}>Degree Days: {number}</Text>
+        )}
+      </View>
     </>
   );
 }
@@ -136,5 +124,13 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: 20,
     height: 20,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  degreeDays: {
+    fontSize: 25,
+    textAlign: 'center',
   },
 });

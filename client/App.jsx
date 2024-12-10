@@ -9,7 +9,8 @@ import React from 'react';
 import {useEffect, useState} from 'react';
 import {PropsWithChildren} from 'react';
 import Fetch from './Fetch';
-// import { GetData } from './api';
+import SelectDate from './SelectDate';
+import { Header } from './Header';
 import {
   SafeAreaView,
   ScrollView,
@@ -24,60 +25,11 @@ import {
 import {
   Colors,
   DebugInstructions,
-  Header,
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import axios from 'axios';
 // const axios = require('axios').default;
-
-// async function GetData(): Promise<any>{
-//   const [data, setData] = useState({});
-//   const info = {
-//     date: '2024-10-16',
-//     species: 'WesternCherry',
-//     reqData: 'dayDegreeDay',
-//   };
-//   try {
-//     await useEffect(() => {
-//       fetch('http://localhost:8080/get', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(info),
-//       })
-//         .then(res => res.json())
-//         .then(data => setData(data));
-//     }, []);
-//     return data;
-//   } catch (error) {
-//     console.error('Error fetching data: ', error);
-//     throw error;
-//   }
-// };
-
-// function GetData() {
-//   const [data, setData] = useState({});
-//   const info = {
-//     date: "2024-10-16",
-//     species: "WesternCherry",
-//     reqData: "dayDegreeDay",
-//   };
-
-//   useEffect(() => {
-//     fetch("http://localhost:8080/get", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(info),
-//     })
-//       .then((res) => res.json())
-//       .then((data) => setData(data));
-//   }, []);
-//   return data;
-// }
 
 function Section({children, title}) {
   const isDarkMode = useColorScheme() === 'dark';
@@ -105,39 +57,8 @@ function Section({children, title}) {
   );
 }
 
-function GetData(date, species, reqData) {
-  const [data, setData] = useState(0);
-
-  const info = {
-    date: date,
-    species: species,
-    reqData: reqData,
-  };
-
-  // get rid of useEffect and make async function
-  useEffect(() => {
-    fetch('http://localhost:8080/get', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(info),
-    })
-      .then(res => res.json())
-      .then(data => setData(data));
-  }, []);
-  return (
-    <Text>
-      {Number(data)}
-    </Text>
-    
-  );
-}
-
 function App() {
   const [loading, setLoading] = useState(true);
-  const [number, setNumber] = useState(GetData("2024-10-16", "WesternCherry", "dayDegreeDay"));
-  // setNumber(GetData("2024-10-16", "WesternCherry", "dayDegreeDay"))
 
   const isDarkMode = useColorScheme() === 'dark';
   // if (loading) return <Text>Loading...</Text>;
@@ -162,10 +83,13 @@ function App() {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
           <Section title="Step One">
-            Select the <Text style={styles.highlight}>button</Text> to get the
-            Degree Day from the server.
+            Select the <Text style={styles.highlight}>DATE</Text>.
           </Section>
-          <Fetch/>
+          <SelectDate/>
+          <Section title="Step Two">
+            Select the <Text style={styles.highlight}>SPECIES</Text> from drop down.
+          </Section>
+          <Fetch />
         </View>
       </ScrollView>
     </SafeAreaView>

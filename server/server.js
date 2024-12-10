@@ -79,7 +79,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.listen(PORT, () => {
-  console.log(`Server running on https://degreedayapp.onrender.com:${PORT}`);
+  console.log(`Server running Render`);
 });
 app.get("/getdata", sendData);
 app.post("/get", sendTest);
@@ -103,7 +103,11 @@ async function sendTest(req, res) {
     })
     .exec()
     .then(function (users) {
-      console.log("Hello");
+      console.log("Request Made");
+      console.log("______________");
+      console.log("Date: " + date);
+      console.log("Species: " + species);
+      console.log("Data: " + reqData);
       storeData(users, species, reqData);
       if (reqData == "timeOfLow" || reqData == "timeOfHigh") {
         storedData[species][reqData] = storedData[species][reqData].slice(
