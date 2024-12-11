@@ -2,6 +2,8 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {useEffect, useState} from 'react';
+import DatePicker from 'react-native-date-picker';
+import {Button} from 'react-native';
 
 const getCurrentDate = () => {
   var date = new Date().getDate();
@@ -13,30 +15,26 @@ const getCurrentDate = () => {
   return year + '-' + month + '-' + date; //format: d-m-y;
 };
 function SelectDate() {
-  const [date, setDate] = useState('2024-10-10');
-  
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+
   return (
     <>
-      {/* <Dropdown
-        style={styles.dropdown}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={data}
-        maxHeight={300}
-        labelField="label"
-        valueField="value"
-        placeholder="Select an item"
-        value={value}
-        onChange={item => {
-          setValue(item.value);
-          setSpecies(item.species);
-          setReqData(item.reqData);
-        }}
-      /> */}
       <View style={styles.container}>
-        <Text style={styles.degreeDays}>{date}</Text>
+        <Button title="Select Date" onPress={() => setOpen(true)} />
+        <DatePicker
+          modal
+          open={open}
+          date={date}
+          mode='date'
+          onConfirm={date => {
+            setOpen(false);
+            setDate(date);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+        />
       </View>
     </>
   );
