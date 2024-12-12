@@ -1,21 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Dropdown} from 'react-native-element-dropdown';
 import {useEffect, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {Button} from 'react-native';
 
-const getCurrentDate = () => {
-  var date = new Date().getDate();
-  var month = new Date().getMonth() - 2;
-  var year = new Date().getFullYear();
-
-  //Alert.alert(date + '-' + month + '-' + year);
-  // You can turn it in to your desired format
-  return year + '-' + month + '-' + date; //format: d-m-y;
-};
-function SelectDate() {
-  const [date, setDate] = useState(new Date());
+function SelectDate({date, setDate, children}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -27,6 +16,8 @@ function SelectDate() {
           open={open}
           date={date}
           mode='date'
+          minimumDate={new Date("2024-01-02")}
+          maximumDate={new Date()}
           onConfirm={date => {
             setOpen(false);
             setDate(date);
@@ -35,6 +26,7 @@ function SelectDate() {
             setOpen(false);
           }}
         />
+        <Text>{children}</Text>
       </View>
     </>
   );

@@ -8,9 +8,10 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
 import {PropsWithChildren} from 'react';
-import Fetch from './Fetch';
-import SelectDate from './SelectDate';
-import { Header } from './Header';
+import Fetch from './ components/Fetch';
+import SelectDate from './ components/SelectDate';
+import { DegreeDayScreen } from './screens/DegreeDayScreen';
+import { Header } from './ components/Header';
 import {
   SafeAreaView,
   ScrollView,
@@ -58,11 +59,12 @@ function Section({children, title}) {
 }
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const isDarkMode = useColorScheme() === 'dark';
-  // if (loading) return <Text>Loading...</Text>;
-  // if (error) return <Text>Error!</Text>;
+  if (loading) return <Text>Loading...</Text>;
+  if (error) return <Text>Error!</Text>;
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -77,19 +79,11 @@ function App() {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
-            Select the <Text style={styles.highlight}>DATE</Text>.
-          </Section>
-          <SelectDate/>
-          <Section title="Step Two">
-            Select the <Text style={styles.highlight}>SPECIES</Text> from drop down.
-          </Section>
-          <Fetch />
+          <DegreeDayScreen />
         </View>
       </ScrollView>
     </SafeAreaView>

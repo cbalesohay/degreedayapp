@@ -7,26 +7,16 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
-import {Dropdown} from 'react-native-element-dropdown';
 import {useEffect, useState} from 'react';
-
-const getCurrentDate = () => {
-  var date = new Date().getDate();
-  var month = new Date().getMonth() - 1;
-  var year = new Date().getFullYear();
-  //format: yyyy-mm-dd;
-  return year + '-' + month + '-' + date;
-};
 
 function Fetch({selectedDate}) {
   const [number, setNumber] = useState(null);
-  const [date, setDate] = useState(null);
   const [value, setValue] = useState(null);
   const [species, setSpecies] = useState('WesternCherry');
   const [isLoading, setLoading] = useState(true);
 
   const info = {
-    date: date,
+    date: selectedDate,
     species: species,
     reqData: 'dayDegreeDay',
   };
@@ -69,16 +59,15 @@ function Fetch({selectedDate}) {
       });
       const json = await response.json();
       setNumber(json);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
   useEffect(() => {
-    setDate(getCurrentDate());
     getData();
-    setLoading(false);
     return () => {};
-  }, [species, date]);
+  }, [species, selectedDate]);
 
   return (
     <>
@@ -90,14 +79,14 @@ function Fetch({selectedDate}) {
             console.log(item.species);
             setValue(item.value);
             setSpecies(item.species);
-          }}/>
+            setLoading(true);
+          }}
+        />
       ))}
       <View style={styles.container}>
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={styles.degreeDays}>Degree Days: {number}</Text>
-        )}
+        <Text style={styles.degreeDays}>
+          Degree Days: {isLoading ? <ActivityIndicator /> : number}
+        </Text>
       </View>
     </>
   );
