@@ -86,6 +86,7 @@ function Fetch({selectedDate}) {
       <View style={styles.container}>
         <Text style={styles.degreeDays}>
           Degree Days: {isLoading ? <ActivityIndicator /> : number}
+        {/* {selectedDate} */}
         </Text>
       </View>
     </>
