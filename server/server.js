@@ -105,9 +105,9 @@ async function sendTest(req, res) {
     .then(function (users) {
       console.log("Request Made");
       console.log("______________");
-      console.log("Date: " + date);
-      console.log("Species: " + species);
-      console.log("Data: " + reqData);
+      console.log("Date: " + JSON.stringify(specificDate));
+      console.log("Date: " + JSON.stringify(species));
+      console.log("Date: " + JSON.stringify(reqData));
       storeData(users, species, reqData);
       if (reqData == "timeOfLow" || reqData == "timeOfHigh") {
         storedData[species][reqData] = storedData[species][reqData].slice(
