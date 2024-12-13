@@ -15,7 +15,7 @@ export const Header = () => {
     <>
       <SafeAreaView>
         <View style={styles.container}>
-          <Text style={styles.title}>Degree Day Modeling App</Text>
+          <Text style={styles.title}>Degree Days</Text>
         </View>
       </SafeAreaView>
     </>
@@ -26,12 +26,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'grey',
-    height: 300,
+    backgroundColor: '#45474a',
+    height: 200,
   },
   title: {
     fontSize: 30,
     textAlign: 'center',
     margin: 10,
+    color: 'white',
   },
 });

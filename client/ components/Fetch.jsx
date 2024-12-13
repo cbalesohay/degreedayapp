@@ -3,13 +3,15 @@ import {
   StyleSheet,
   Text,
   View,
+  TextInput,
   ActivityIndicator,
   Button,
   TouchableOpacity,
 } from 'react-native';
 import {useEffect, useState} from 'react';
+import {Error} from './Error';
 
-function Fetch({selectedDate}) {
+function Fetch({selectedDate, selectedSpecies, title}) {
   const [number, setNumber] = useState(null);
   const [value, setValue] = useState(null);
   const [species, setSpecies] = useState('WesternCherry');
@@ -17,7 +19,7 @@ function Fetch({selectedDate}) {
 
   const info = {
     date: selectedDate,
-    species: species,
+    species: selectedSpecies,
     reqData: 'dayDegreeDay',
   };
   const data = [
@@ -59,6 +61,7 @@ function Fetch({selectedDate}) {
         body: JSON.stringify(info),
       });
       const json = await response.json();
+
       setNumber(json);
       setLoading(false);
     } catch (error) {
@@ -67,12 +70,13 @@ function Fetch({selectedDate}) {
   };
   useEffect(() => {
     getData();
-    return () => {};
-  }, [species, selectedDate]);
+    return () => {
+    };
+  }, [selectedSpecies, selectedDate]);
 
   return (
     <>
-      {data.map((item, index) => (
+      {/* {data.map((item, index) => (
         <Button
           key={index}
           title={item.label}
@@ -83,11 +87,11 @@ function Fetch({selectedDate}) {
             setLoading(true);
           }}
         />
-      ))}
+      ))} */}
       <View style={styles.container}>
         <Text style={styles.degreeDays}>
-          Degree Days: {isLoading ? <ActivityIndicator /> : number}
-        {/* {selectedDate} */}
+          {title}: {isLoading ? <ActivityIndicator /> : number}
+          {/* {selectedDate} */}
         </Text>
       </View>
     </>
@@ -122,6 +126,8 @@ const styles = StyleSheet.create({
   },
   degreeDays: {
     fontSize: 25,
-    textAlign: 'center',
+    textAlign: 'left',
+    paddingTop: 5,
+    paddingLeft: 25,
   },
 });

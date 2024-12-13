@@ -49,13 +49,17 @@ function Section({children, title}) {
 }
 
 export const DegreeDayScreen = () => {
-    const [date, setDate] = useState(new Date());
-    const [dateParsed, setDateParsed] = useState();
-    const parseDate = data => {
-      const today = data;
-      const formattedDate = today.toISOString().slice(0, 10);
-      return formattedDate;
-    };
+  const [date, setDate] = useState(new Date());
+  const [westernCherry, setWesternCherry] = useState();
+  const [leafRollers, setLeafRollers] = useState();
+  const [codlingMoth, setCodlingMoth] = useState();
+  const [appleScab, setAppleScab] = useState();
+  const [dateParsed, setDateParsed] = useState();
+  const parseDate = data => {
+    const today = data;
+    const formattedDate = today.toISOString().slice(0, 10);
+    return formattedDate;
+  };
 
   useEffect(() => {
     setDateParsed(parseDate(date));
@@ -72,9 +76,31 @@ export const DegreeDayScreen = () => {
         <Text style={styles.date}>{dateParsed}</Text>
       </SelectDate>
       <Section title="Step Two">
-        Select the <Text style={styles.highlight}>SPECIES</Text> from drop down.
+        Select the <Text style={styles.highlight}>SPECIES</Text>.
       </Section>
-      <Fetch selectedDate={dateParsed} />
+      <View>
+        <Text style={styles.degreeDays}>Degree Days</Text>
+      </View>
+      <Fetch
+        selectedDate={dateParsed}
+        selectedSpecies={"WesternCherry"}
+        title={"WC"}
+      />
+      <Fetch
+        selectedDate={dateParsed}
+        selectedSpecies={"LeafRollers"}
+        title={"LR"}
+      />
+      <Fetch
+        selectedDate={dateParsed}
+        selectedSpecies={"CodlingMoth"}
+        title={"CM"}
+      />
+      <Fetch
+        selectedDate={dateParsed}
+        selectedSpecies={"AppleScab"}
+        title={"AC"}
+      />
     </>
   );
 };
@@ -97,6 +123,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   date: {
+    fontSize: 25,
+    textAlign: 'center',
+  },
+  degreeDays: {
     fontSize: 25,
     textAlign: 'center',
   },
