@@ -48,8 +48,8 @@ function Fetch({selectedDate}) {
   ];
 
   const getData = async () => {
-    // const url = 'https://degreedayapp.onrender.com/get';
-    const url = 'http://loacalhost:8080/get';
+    const url = 'https://degreedayapp.onrender.com/get';
+    // const url = 'http://loacalhost:8080/get';
     try {
       const response = await fetch(url, {
         method: 'POST',

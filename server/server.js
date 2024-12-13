@@ -1,5 +1,5 @@
 const require = createRequire(import.meta.url);
-require('dotenv').config();
+require("dotenv").config();
 import { createRequire } from "module";
 import soacModel from "./model/Soac.js";
 const express = require("express");
@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const MONGODB_URI = process.env.API_KEY;
 const mongoose = require("mongoose");
 const app = express();
-var cors = require('cors');
+var cors = require("cors");
 app.use(cors());
 const PORT = 8080;
 const degreeDayType = {
@@ -103,11 +103,12 @@ async function sendTest(req, res) {
     })
     .exec()
     .then(function (users) {
+      console.log("--------------------");
       console.log("Request Made");
-      console.log("______________");
       console.log("Date: " + JSON.stringify(specificDate));
-      console.log("Date: " + JSON.stringify(species));
-      console.log("Date: " + JSON.stringify(reqData));
+      console.log("Species: " + JSON.stringify(species));
+      console.log("reqData: " + JSON.stringify(reqData));
+      console.log("--------------------");
       storeData(users, species, reqData);
       if (reqData == "timeOfLow" || reqData == "timeOfHigh") {
         storedData[species][reqData] = storedData[species][reqData].slice(
@@ -119,23 +120,13 @@ async function sendTest(req, res) {
         storedData[species][reqData] = storedData[species][reqData].toFixed(2);
         res.json(Number(storedData[species][reqData]));
       }
+      // console.log(users);
       res.json(users);
     })
     .catch(function (err) {
       // console.log(req.body);
     });
 }
-
-
-
-
-
-
-
-
-
-
-
 
 async function sendData(req, res) {
   let specificDate = req.body.date;
@@ -210,13 +201,18 @@ function storeData(users, species, reqData) {
       storedData.Temperature.dayAverage = Number(
         fahrenheitConversion(storedData.Temperature.dayAverage)
       );
-      if(species == "WesternCherry" || species == "LeafRollers" || species == "CodlingMoth" || species == "AppleScab"){
+      if (
+        species == "WesternCherry" ||
+        species == "LeafRollers" ||
+        species == "CodlingMoth" ||
+        species == "AppleScab"
+      ) {
         degreeDay(species, reqData);
       }
       break;
     default:
       console.log("Error");
-    }
+  }
 }
 
 function fahrenheitConversion(celciusTemp) {
@@ -244,7 +240,7 @@ function sortMetric(results, metric, metricName) {
   (storedData[metricName].dayLow = 1000),
     (storedData[metricName].dayHigh = -1000),
     (storedData[metricName].dayAverage = 0);
-    let total = 0;
+  let total = 0;
   for (let i = 0; i < results.length; i++) {
     if (results[i][metric] > storedData[metricName].dayHigh) {
       storedData[metricName].dayHigh = results[i][metric];
@@ -256,6 +252,7 @@ function sortMetric(results, metric, metricName) {
     }
     total += results[i][metric];
   }
+
   storedData[metricName].dayAverage = total / results.length;
 }
 
