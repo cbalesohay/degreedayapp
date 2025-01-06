@@ -220,6 +220,8 @@ function sortMetric(results, metric, metricName) {
     total += results[i][metric];
   }
 
+  results[results.length - 1][metric] = storedData[metricName].current;
+
   storedData[metricName].dayAverage = total / results.length;
 }
 

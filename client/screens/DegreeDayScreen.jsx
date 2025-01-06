@@ -79,6 +79,7 @@ export const DegreeDayScreen = () => {
   return (
     <>
       <Header />
+      <View style={styles.titleContainer}><Text style={styles.sectionTitle}>Degree Day Screen</Text></View>
       <SelectDate date={date} setDate={setDate}>
         <Text style={styles.date}>{dateParsed}</Text>
       </SelectDate>
@@ -112,9 +113,15 @@ const styles = StyleSheet.create({
     marginTop: 32,
     paddingHorizontal: 24,
   },
+  titleContainer: {
+    textAlign: 'center',
+    backgroundColor: '#45474a',
+  },
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
+    textAlign: 'center',
+    color: 'white',
   },
   sectionDescription: {
     marginTop: 8,

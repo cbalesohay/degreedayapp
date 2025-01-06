@@ -52,6 +52,7 @@ export const MetricDayScreen = () => {
   return (
     <>
       <Header />
+      <View style={styles.titleContainer}><Text style={styles.sectionTitle}>Current Metrics Screen</Text></View>
       <SelectDate date={date} setDate={setDate}>
         <Text style={styles.date}>{dateParsed}</Text>
       </SelectDate>
@@ -63,10 +64,6 @@ export const MetricDayScreen = () => {
         <Text style={styles.degreeDays}>
           RainFall:{' '}
           <Text>{MyComponent(dateParsed, 'Rain', 'dayRainfall')} in.</Text>
-        </Text>
-        <Text style={styles.degreeDays}>
-          Total RainFall (YTD):{' '}
-          <Text>{MyComponent(dateParsed, 'Rain', 'totalRainfall')} in.</Text>
         </Text>
         <Text style={styles.degreeDays}>
           Humidity:{' '}
@@ -82,9 +79,15 @@ const styles = StyleSheet.create({
     marginTop: 32,
     paddingHorizontal: 24,
   },
+  titleContainer: {
+    textAlign: 'center',
+    backgroundColor: '#45474a',
+  },
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
+    textAlign: 'center',
+    color: 'white',
   },
   sectionDescription: {
     marginTop: 8,
