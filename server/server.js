@@ -83,6 +83,11 @@ app.listen(PORT, () => {
   console.log(`Server running Render`);
 });
 app.post("/get", sendTest);
+app.use((req, res, next) => {
+  req.setTimeout(5000); // Set a timeout for requests
+  res.setTimeout(5000); // Set a timeout for responses
+  next();
+});
 
 async function sendTest(req, res) {
   let specificDate = req.body.date;
@@ -108,7 +113,6 @@ async function sendTest(req, res) {
       console.log("Date: " + JSON.stringify(specificDate));
       console.log("Species: " + JSON.stringify(species));
       console.log("reqData: " + JSON.stringify(reqData));
-      console.log(`Fetching data for date range: ${specificDate} to ${dayAfter}`);
       console.log("--------------------");
       storeData(users, species, reqData);
       if (reqData == "timeOfLow" || reqData == "timeOfHigh") {
@@ -122,10 +126,11 @@ async function sendTest(req, res) {
         res.json(Number(storedData[species][reqData]));
       }
       // console.log(users);
-      res.json(users);
+      // res.json(users);
     })
     .catch(function (err) {
       // console.log(req.body);
+      console.error("Error occurred:", err.message);
     });
 }
 
@@ -169,6 +174,9 @@ function storeData(users, species, reqData) {
       storedData.Temperature.dayAverage = Number(
         fahrenheitConversion(storedData.Temperature.dayAverage)
       );
+      storedData.Temperature.current = Number(
+        fahrenheitConversion(storedData.Temperature.current)
+      );
       if (
         species == "WesternCherry" ||
         species == "LeafRollers" ||
@@ -207,7 +215,8 @@ function degreeDay(species) {
 function sortMetric(results, metric, metricName) {
   (storedData[metricName].dayLow = 1000),
     (storedData[metricName].dayHigh = -1000),
-    (storedData[metricName].dayAverage = 0);
+    (storedData[metricName].dayAverage = 0),
+    (storedData[metricName].current = 0);
   let total = 0;
   for (let i = 0; i < results.length; i++) {
     if (results[i][metric] > storedData[metricName].dayHigh) {
@@ -220,8 +229,7 @@ function sortMetric(results, metric, metricName) {
     }
     total += results[i][metric];
   }
-
-  results[results.length - 1][metric] = storedData[metricName].current;
+  storedData[metricName].current = results[results.length - 1][metric];
 
   storedData[metricName].dayAverage = total / results.length;
 }
