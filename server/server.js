@@ -108,6 +108,7 @@ async function sendTest(req, res) {
       console.log("Date: " + JSON.stringify(specificDate));
       console.log("Species: " + JSON.stringify(species));
       console.log("reqData: " + JSON.stringify(reqData));
+      console.log(`Fetching data for date range: ${specificDate} to ${dayAfter}`);
       console.log("--------------------");
       storeData(users, species, reqData);
       if (reqData == "timeOfLow" || reqData == "timeOfHigh") {

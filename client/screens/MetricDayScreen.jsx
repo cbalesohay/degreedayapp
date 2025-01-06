@@ -41,10 +41,10 @@ export const MetricDayScreen = () => {
   }, [date]);
 
   function MyComponent(date, species, reqData) {
-    const {data, isLoading, error} = FetchData(date, species, reqData);
+    const {data, isLoading, error} = FetchData(parseDate, species, reqData);
 
     if (isLoading) return <Text>{<ActivityIndicator />}</Text>;
-    if (!error) return <Text>No Data</Text>;
+    if (error) return <Text>No Data</Text>;
 
     return <>{data}</>;
   }
@@ -53,11 +53,12 @@ export const MetricDayScreen = () => {
     <>
       <Header />
       <View style={styles.titleContainer}><Text style={styles.sectionTitle}>Current Metrics Screen</Text></View>
-      <SelectDate date={date} setDate={setDate}>
+      {/* <SelectDate date={date} setDate={setDate}>
         <Text style={styles.date}>{dateParsed}</Text>
-      </SelectDate>
+      </SelectDate> */}
       <View style={styles.sectionContainer}>
         <Text style={styles.title}>Day Numbers</Text>
+        <Text style={styles.date}>{dateParsed}</Text>
         <Text style={styles.degreeDays}>
           Tempature: <Text>{MyComponent(dateParsed, 'Temperature', 'current')} F</Text>
         </Text>
@@ -67,7 +68,7 @@ export const MetricDayScreen = () => {
         </Text>
         <Text style={styles.degreeDays}>
           Humidity:{' '}
-          <Text>{MyComponent(dateParsed, 'Humidity', 'dayAverage')} %</Text>
+          <Text>{MyComponent(dateParsed, 'Humidity', 'dayAverage')} %gg</Text>
         </Text>
       </View>
     </>
