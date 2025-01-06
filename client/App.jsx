@@ -8,9 +8,9 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
 import {PropsWithChildren} from 'react';
-import Fetch from './ components/Fetch';
 import SelectDate from './ components/SelectDate';
 import { DegreeDayScreen } from './screens/DegreeDayScreen';
+import { MetricDayScreen } from './screens/MetricDayScreen';
 import { Header } from './ components/Header';
 import {
   SafeAreaView,
@@ -83,7 +83,8 @@ function App() {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <DegreeDayScreen />
+          {/* <DegreeDayScreen /> */}
+          <MetricDayScreen />
         </View>
       </ScrollView>
     </SafeAreaView>

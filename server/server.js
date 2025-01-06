@@ -56,6 +56,7 @@ let storedData = {
     dayAverage: 0,
     timeOfLow: "",
     timeOfHigh: "",
+    current: 0,
   },
   Rain: {
     totalRainfall: 0,
@@ -128,55 +129,22 @@ async function sendTest(req, res) {
     });
 }
 
-async function sendData(req, res) {
-  let specificDate = req.body.date;
-  let dayAfter = new Date(specificDate);
-  dayAfter.setDate(dayAfter.getDate() + 1);
-  let dayBefore = new Date(specificDate);
-  dayBefore.setDate(dayBefore.getDate() - 1);
-  let species = req.body.species;
-  let reqData = req.body.reqData;
-  const results = await soacModel
-    .find({
-      device: 12,
-      id: 222,
-      time: {
-        $gte: new Date(specificDate).toISOString(),
-        $lt: new Date(dayAfter).toISOString(),
-      },
-    })
-    .exec()
-    .then(function (users) {
-      storeData(users, species, reqData);
-      if (reqData == "timeOfLow" || reqData == "timeOfHigh") {
-        storedData[species][reqData] = storedData[species][reqData].slice(
-          11,
-          16
-        );
-        res.json(storedData[species][reqData]);
-      } else {
-        storedData[species][reqData] = storedData[species][reqData].toFixed(2);
-        res.json(Number(storedData[species][reqData]));
-      }
-      // res.json(users);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
-}
-
 function storeData(users, species, reqData) {
   switch (species) {
     case "Rain":
       // Determins and Converts total and daily rainfall to Millimeters to Inches
-      storedData.Rain.totalRainfall = Number(
-        millimeterToInchConversion(users[users.length - 1].total_rainfall)
-      );
-      storedData.Rain.dayRainfall = Number(
-        millimeterToInchConversion(
-          users[users.length - 1].total_rainfall - users[0].total_rainfall
-        )
-      );
+      if (reqData == "totalRainfall") {
+        storedData.Rain.totalRainfall = Number(
+          millimeterToInchConversion(users[users.length - 1].total_rainfall)
+        );
+      }
+      if (reqData == "dayRainfall") {
+        storedData.Rain.dayRainfall = Number(
+          millimeterToInchConversion(
+            users[users.length - 1].total_rainfall - users[0].total_rainfall
+          )
+        );
+      }
       break;
     case "Humidity":
       // Determins average humidity for the day

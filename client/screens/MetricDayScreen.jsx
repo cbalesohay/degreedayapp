@@ -23,38 +23,11 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-function Section({children, title}) {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-export const DegreeDayScreen = () => {
+export const MetricDayScreen = () => {
   const [date, setDate] = useState(new Date());
-  const [westernCherry, setWesternCherry] = useState();
-  const [leafRollers, setLeafRollers] = useState();
-  const [codlingMoth, setCodlingMoth] = useState();
-  const [appleScab, setAppleScab] = useState();
+  const [rainAmount, setRainAmount] = useState();
+  const [tempature, setTempature] = useState();
+  const [humidity, setHumidity] = useState();
   const [dateParsed, setDateParsed] = useState();
   const parseDate = data => {
     const today = data;
@@ -71,7 +44,7 @@ export const DegreeDayScreen = () => {
     const {data, isLoading, error} = FetchData(date, species, reqData);
 
     if (isLoading) return <Text>{<ActivityIndicator />}</Text>;
-    if (error) return <Text>No Data</Text>;
+    if (!error) return <Text>No Data</Text>;
 
     return <>{data}</>;
   }
@@ -83,25 +56,22 @@ export const DegreeDayScreen = () => {
         <Text style={styles.date}>{dateParsed}</Text>
       </SelectDate>
       <View style={styles.sectionContainer}>
-        <Text style={styles.title}>Degree Days</Text>
+        <Text style={styles.title}>Day Numbers</Text>
+        {/* <Text style={styles.degreeDays}>
+          Tempature: <Text>{MyComponent(dateParsed, 'Temperature', 'current')}</Text>
+        </Text> */}
         <Text style={styles.degreeDays}>
-          Western Cherry:{' '}
-          <Text>
-            {MyComponent(dateParsed, 'WesternCherry', 'dayDegreeDay')}
-          </Text>
+          RainFall:{' '}
+          <Text>{MyComponent(dateParsed, 'Rain', 'dayRainfall')}</Text>
+        </Text>
+        {/* <Text style={styles.degreeDays}>
+          Total RainFall (YTD):{' '}
+          <Text>{MyComponent(dateParsed, 'Rain', 'totalRainfall')}</Text>
         </Text>
         <Text style={styles.degreeDays}>
-          Leaf Rollers:{' '}
-          <Text>{MyComponent(dateParsed, 'LeafRollers', 'dayDegreeDay')}</Text>
-        </Text>
-        <Text style={styles.degreeDays}>
-          Codling Moth:{' '}
-          <Text>{MyComponent(dateParsed, 'CodlingMoth', 'dayDegreeDay')}</Text>
-        </Text>
-        <Text style={styles.degreeDays}>
-          Apple Scab:{' '}
-          <Text>{MyComponent(dateParsed, 'AppleScab', 'dayDegreeDay')}</Text>
-        </Text>
+          Humidity:{' '}
+          <Text>{MyComponent(dateParsed, 'Humidity', 'dayHumidity')}</Text>
+        </Text> */}
       </View>
     </>
   );
