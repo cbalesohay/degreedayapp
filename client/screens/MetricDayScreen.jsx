@@ -57,21 +57,21 @@ export const MetricDayScreen = () => {
       </SelectDate>
       <View style={styles.sectionContainer}>
         <Text style={styles.title}>Day Numbers</Text>
-        {/* <Text style={styles.degreeDays}>
-          Tempature: <Text>{MyComponent(dateParsed, 'Temperature', 'current')}</Text>
-        </Text> */}
+        <Text style={styles.degreeDays}>
+          Tempature: <Text>{MyComponent(dateParsed, 'Temperature', 'current')} F</Text>
+        </Text>
         <Text style={styles.degreeDays}>
           RainFall:{' '}
-          <Text>{MyComponent(dateParsed, 'Rain', 'dayRainfall')}</Text>
+          <Text>{MyComponent(dateParsed, 'Rain', 'dayRainfall')} in.</Text>
         </Text>
-        {/* <Text style={styles.degreeDays}>
+        <Text style={styles.degreeDays}>
           Total RainFall (YTD):{' '}
-          <Text>{MyComponent(dateParsed, 'Rain', 'totalRainfall')}</Text>
+          <Text>{MyComponent(dateParsed, 'Rain', 'totalRainfall')} in.</Text>
         </Text>
         <Text style={styles.degreeDays}>
           Humidity:{' '}
-          <Text>{MyComponent(dateParsed, 'Humidity', 'dayHumidity')}</Text>
-        </Text> */}
+          <Text>{MyComponent(dateParsed, 'Humidity', 'dayAverage')} %</Text>
+        </Text>
       </View>
     </>
   );

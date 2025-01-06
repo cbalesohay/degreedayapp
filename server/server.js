@@ -65,7 +65,7 @@ let storedData = {
   Humidity: {
     dayLow: 1000,
     dayHigh: -1000,
-    dayHumidity: 0,
+    dayAverage: 0,
     timeOfLow: "",
     timeOfHigh: "",
   },

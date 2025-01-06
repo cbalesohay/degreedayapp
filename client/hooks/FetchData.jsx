@@ -34,7 +34,7 @@ export const FetchData = (selectedDate, selectedSpecies, selectedReqData) => {
     };
 
     fetchData();
-  }, [selectedDate]);
+  }, []);
 
   return { data, isLoading, error };
 };

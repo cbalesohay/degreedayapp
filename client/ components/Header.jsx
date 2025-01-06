@@ -15,7 +15,7 @@ export const Header = () => {
     <>
       <SafeAreaView>
         <View style={styles.container}>
-          <Text style={styles.title}>Degree Days</Text>
+          <Text style={styles.title}>Degree Day App</Text>
         </View>
       </SafeAreaView>
     </>
