@@ -82,7 +82,6 @@ app.use(express.json());
 app.listen(PORT, () => {
   console.log(`Server running Render`);
 });
-app.get("/getdata", sendData);
 app.post("/get", sendTest);
 
 async function sendTest(req, res) {
