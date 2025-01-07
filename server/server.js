@@ -79,11 +79,13 @@ mongoose.connection.on("connected", () => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors({ origin: 'https://degreedayapp.onrender.com/get' }));
 app.listen(PORT, () => {
   console.log(`Server running on Render port ${PORT}`);
 });
 app.post("/get", sendTest);
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
 
 async function sendTest(req, res) {
   let specificDate = req.body.date;
