@@ -3,7 +3,8 @@ import React, {useState, useEffect} from 'react';
 export const FetchData = (selectedDate, selectedSpecies, selectedReqData) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState('');
   const url = 'https://degreedayapp.onrender.com/get';
   // const url = 'http://loacalhost:8080/get';
   const info = {
@@ -23,18 +24,23 @@ export const FetchData = (selectedDate, selectedSpecies, selectedReqData) => {
           },
           body: JSON.stringify(info),
         });
-        const json = await response.json();
-        setData(json);
+        if (!response.ok) {
+          // Handle HTTP errors
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const json = await response.json(); // Parse the response as JSON
+        setData(json); // Update the state with the fetched data
       } catch (err) {
-        console.error("Error occurred:", err.message);
-        setError(true);
+        console.error('Error occurred:', err.message);
+        setIsError(true); // Set error state if there's an issue
+        setError(err.message); // Store the error message for debugging
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // Stop loading indicator
       }
     };
 
     fetchData();
   }, [selectedDate]);
 
-  return { data, isLoading, error };
+  return {data, isLoading, error, isError};
 };

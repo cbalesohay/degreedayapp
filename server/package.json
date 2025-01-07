@@ -8,7 +8,6 @@
     "dev": "nodemon server"
 
   },
-  "proxy": "http://localhost:8080",
   "type": "module",
   "keywords": [],
   "author": "",
