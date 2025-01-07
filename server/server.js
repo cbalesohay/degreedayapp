@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const app = express();
 var cors = require("cors");
 app.use(cors());
-const PORT = 8080;
+const PORT = process.env.PORT || 4000;
 const degreeDayType = {
   WesternCherry: {
     baseTemp: 41,
@@ -80,7 +80,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.listen(PORT, () => {
-  console.log(`Server running Render`);
+  console.log(`Server running on Render port ${PORT}`);
 });
 app.post("/get", sendTest);
 
