@@ -41,7 +41,7 @@ export const MetricDayScreen = () => {
   }, [date]);
 
   function MyComponent(date, species, reqData) {
-    const {data, isLoading, error} = FetchData(parseDate, species, reqData);
+    const {data, isLoading, error} = FetchData('2024-12-07', species, reqData);
 
     if (isLoading) return <Text>{<ActivityIndicator />}</Text>;
     if (!error) return <Text>No Data</Text>;
@@ -60,7 +60,8 @@ export const MetricDayScreen = () => {
         <Text style={styles.title}>Day Numbers</Text>
         <Text style={styles.date}>{dateParsed}</Text>
         <Text style={styles.degreeDays}>
-          Tempature: <Text>{MyComponent(dateParsed, 'Temperature', 'current')} F</Text>
+          Tempature:{' '}
+          <Text>{MyComponent(dateParsed, 'Temperature', 'dayAverage')} F</Text>
         </Text>
         <Text style={styles.degreeDays}>
           RainFall:{' '}

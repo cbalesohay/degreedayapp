@@ -83,11 +83,6 @@ app.listen(PORT, () => {
   console.log(`Server running Render`);
 });
 app.post("/get", sendTest);
-app.use((req, res, next) => {
-  req.setTimeout(5000); // Set a timeout for requests
-  res.setTimeout(5000); // Set a timeout for responses
-  next();
-});
 
 async function sendTest(req, res) {
   let specificDate = req.body.date;

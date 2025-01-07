@@ -71,7 +71,7 @@ export const DegreeDayScreen = () => {
     const {data, isLoading, error} = FetchData(date, species, reqData);
 
     if (isLoading) return <Text>{<ActivityIndicator />}</Text>;
-    if (error) return <Text>No Data</Text>;
+    if (!error) return <Text>No Data</Text>;
 
     return <>{data}</>;
   }
@@ -79,7 +79,9 @@ export const DegreeDayScreen = () => {
   return (
     <>
       <Header />
-      <View style={styles.titleContainer}><Text style={styles.sectionTitle}>Degree Day Screen</Text></View>
+      <View style={styles.titleContainer}>
+        <Text style={styles.sectionTitle}>Degree Day Screen</Text>
+      </View>
       <SelectDate date={date} setDate={setDate}>
         <Text style={styles.date}>{dateParsed}</Text>
       </SelectDate>
@@ -102,6 +104,26 @@ export const DegreeDayScreen = () => {
         <Text style={styles.degreeDays}>
           Apple Scab:{' '}
           <Text>{MyComponent(dateParsed, 'AppleScab', 'dayDegreeDay')}</Text>
+        </Text>
+        <Text style={styles.degreeDays}>
+          RainFall:{' '}
+          <Text>{MyComponent(dateParsed, 'Rain', 'dayRainfall')} in.</Text>
+        </Text>
+        <Text style={styles.degreeDays}>
+          Humidity:{' '}
+          <Text>{MyComponent(dateParsed, 'Humidity', 'dayAverage')} %</Text>
+        </Text>
+        <Text style={styles.degreeDays}>
+          Day Low:{' '}
+          <Text>{MyComponent(dateParsed, 'Temperature', 'dayLow')} F</Text>
+        </Text>
+        <Text style={styles.degreeDays}>
+          Day High:{' '}
+          <Text>{MyComponent(dateParsed, 'Temperature', 'dayHigh')} F</Text>
+        </Text>
+        <Text style={styles.degreeDays}>
+          Tempature:{' '}
+          <Text>{MyComponent(dateParsed, 'Temperature', 'dayAverage')} F</Text>
         </Text>
       </View>
     </>

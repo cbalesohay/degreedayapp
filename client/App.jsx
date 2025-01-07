@@ -83,8 +83,8 @@ function App() {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          {/* <DegreeDayScreen /> */}
-          <MetricDayScreen />
+          <DegreeDayScreen />
+          {/* <MetricDayScreen /> */}
         </View>
       </ScrollView>
     </SafeAreaView>
