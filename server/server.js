@@ -79,6 +79,7 @@ mongoose.connection.on("connected", () => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors({ origin: 'https://degreedayapp.onrender.com/get' }));
 app.listen(PORT, () => {
   console.log(`Server running on Render port ${PORT}`);
 });
