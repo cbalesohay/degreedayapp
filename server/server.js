@@ -71,10 +71,15 @@ let storedData = {
   },
 };
 
-mongoose.connect(MONGODB_URI);
-mongoose.connection.on("connected", () => {
-  console.log("Mongoose is connected!!!");
-});
+// mongoose.connect(MONGODB_URI);
+// mongoose.connection.on("connected", () => {
+//   console.log("Mongoose is connected!!!");
+// });
+
+mongoose
+  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -83,8 +88,8 @@ app.listen(PORT, () => {
   console.log(`Server running on Render port ${PORT}`);
 });
 app.post("/get", sendTest);
-app.get('/health', (req, res) => {
-  res.status(200).send('OK');
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
 });
 
 async function sendTest(req, res) {

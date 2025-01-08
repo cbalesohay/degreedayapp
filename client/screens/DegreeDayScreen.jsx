@@ -71,7 +71,7 @@ export const DegreeDayScreen = () => {
     const {data, isLoading, error, isError} = FetchData(date, species, reqData);
 
     if (isLoading) return <Text>{<ActivityIndicator />}</Text>;
-    console.error("The error is: " + error);
+    console.error(error);
     // if (error) return <Text>No Data</Text>;
 
     return <>{data}</>;
@@ -94,15 +94,15 @@ export const DegreeDayScreen = () => {
             {MyComponent(dateParsed, 'WesternCherry', 'dayDegreeDay')}
           </Text>
         </Text>
-        <Text style={styles.degreeDays}>
+        {/* <Text style={styles.degreeDays}>
           Leaf Rollers:{' '}
           <Text>{MyComponent(dateParsed, 'LeafRollers', 'dayDegreeDay')}</Text>
         </Text>
         <Text style={styles.degreeDays}>
           Codling Moth:{' '}
           <Text>{MyComponent(dateParsed, 'CodlingMoth', 'dayDegreeDay')}</Text>
-        </Text>
-        <Text style={styles.degreeDays}>
+        </Text> */}
+        {/* <Text style={styles.degreeDays}>
           Apple Scab:{' '}
           <Text>{MyComponent(dateParsed, 'AppleScab', 'dayDegreeDay')}</Text>
         </Text>
@@ -121,7 +121,7 @@ export const DegreeDayScreen = () => {
         <Text style={styles.degreeDays}>
           Day High:{' '}
           <Text>{MyComponent(dateParsed, 'Temperature', 'dayHigh')} F</Text>
-        </Text>
+        </Text> */}
         {/* <Text style={styles.degreeDays}>
           Tempature:{' '}
           <Text>{MyComponent(dateParsed, 'Temperature', 'dayAverage')} F</Text>
