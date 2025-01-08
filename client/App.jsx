@@ -9,9 +9,9 @@ import React from 'react';
 import {useEffect, useState} from 'react';
 import {PropsWithChildren} from 'react';
 import SelectDate from './ components/SelectDate';
-import { DegreeDayScreen } from './screens/DegreeDayScreen';
-import { MetricDayScreen } from './screens/MetricDayScreen';
-import { Header } from './ components/Header';
+import {DegreeDayScreen} from './screens/DegreeDayScreen';
+import {MetricDayScreen} from './screens/MetricDayScreen';
+import {Header} from './ components/Header';
 import {
   SafeAreaView,
   ScrollView,
@@ -67,13 +67,14 @@ function App() {
   if (error) return <Text>Error!</Text>;
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    // backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: '#45474a',
   };
-  
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <ScrollView
@@ -81,7 +82,7 @@ function App() {
         style={backgroundStyle}>
         <View
           style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            flex: 1, // This will make the view take up 100% of the available space
           }}>
           <DegreeDayScreen />
           {/* <MetricDayScreen /> */}

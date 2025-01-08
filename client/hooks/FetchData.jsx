@@ -30,7 +30,7 @@ export const FetchData = (selectedDate, selectedSpecies, selectedReqData) => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const json = await response.json(); // Parse the response as JSON
-      console.log(json);
+      // console.log(json); // To check the data recieved
       setData(json); // Update the state with the fetched data
     } catch (err) {
       console.error('Error occurred:', err.message);

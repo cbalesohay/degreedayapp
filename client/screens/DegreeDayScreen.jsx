@@ -71,8 +71,20 @@ export const DegreeDayScreen = () => {
     const {data, isLoading, error, isError} = FetchData(date, species, reqData);
 
     if (isLoading) return <Text>{<ActivityIndicator />}</Text>;
-    console.error(error);
-    // if (error) return <Text>No Data</Text>;
+    if (isError)
+      return (
+        <>
+          {console.log(error + ' No data recieved')}
+          <Text>No data</Text>
+        </>
+      );
+    if (species == 'Temperature') {
+      return <>{data} F</>;
+    } else if (species == 'Rain') {
+      return <>{data} in.</>;
+    } else if (species == 'Humidity') {
+      return <>{data} %</>;
+    }
 
     return <>{data}</>;
   }
@@ -86,59 +98,91 @@ export const DegreeDayScreen = () => {
       <SelectDate date={date} setDate={setDate}>
         <Text style={styles.date}>{dateParsed}</Text>
       </SelectDate>
+      <Text style={styles.title}>Degree Days Accumulated</Text>
       <View style={styles.sectionContainer}>
-        <Text style={styles.title}>Degree Days</Text>
-        <Text style={styles.degreeDays}>
-          Western Cherry:{' '}
-          <Text>
-            {MyComponent(dateParsed, 'WesternCherry', 'dayDegreeDay')}
-          </Text>
-        </Text>
-        {/* <Text style={styles.degreeDays}>
-          Leaf Rollers:{' '}
-          <Text>{MyComponent(dateParsed, 'LeafRollers', 'dayDegreeDay')}</Text>
-        </Text>
-        <Text style={styles.degreeDays}>
-          Codling Moth:{' '}
-          <Text>{MyComponent(dateParsed, 'CodlingMoth', 'dayDegreeDay')}</Text>
-        </Text> */}
-        {/* <Text style={styles.degreeDays}>
-          Apple Scab:{' '}
-          <Text>{MyComponent(dateParsed, 'AppleScab', 'dayDegreeDay')}</Text>
-        </Text>
-        <Text style={styles.degreeDays}>
-          RainFall:{' '}
-          <Text>{MyComponent(dateParsed, 'Rain', 'dayRainfall')} in.</Text>
-        </Text>
-        <Text style={styles.degreeDays}>
-          Humidity:{' '}
-          <Text>{MyComponent(dateParsed, 'Humidity', 'dayAverage')} %</Text>
-        </Text>
-        <Text style={styles.degreeDays}>
-          Day Low:{' '}
-          <Text>{MyComponent(dateParsed, 'Temperature', 'dayLow')} F</Text>
-        </Text>
-        <Text style={styles.degreeDays}>
-          Day High:{' '}
-          <Text>{MyComponent(dateParsed, 'Temperature', 'dayHigh')} F</Text>
-        </Text> */}
-        {/* <Text style={styles.degreeDays}>
-          Tempature:{' '}
-          <Text>{MyComponent(dateParsed, 'Temperature', 'dayAverage')} F</Text>
-        </Text> */}
+        <View style={styles.column}>
+          // Western Cherry
+          <View style={styles.degreeDayTilePink}>
+            <Text style={styles.tileTextBlack}>Western Cherry:{'\n'}</Text>
+            <Text style={styles.numbersBlack}>
+              {MyComponent(dateParsed, 'WesternCherry', 'dayDegreeDay')}
+            </Text>
+          </View>
+          // Leaf Rollers
+          <View style={styles.degreeDayTileGreen}>
+            <Text style={styles.tileTextWhite}>Leaf Rollers:{'\n'}</Text>
+            <Text style={styles.numbersWhite}>
+              {MyComponent(dateParsed, 'LeafRollers', 'dayDegreeDay')}
+            </Text>
+          </View>
+          // Codling Moth
+          <View style={styles.degreeDayTileBlue}>
+            <Text style={styles.tileTextWhite}>Codling Moth:{'\n'}</Text>
+            <Text style={styles.numbersWhite}>
+              {MyComponent(dateParsed, 'CodlingMoth', 'dayDegreeDay')}
+            </Text>
+          </View>
+          // Apple Scab
+          <View style={styles.degreeDayTileYellow}>
+            <Text style={styles.tileTextBlack}>Apple Scab:{'\n'}</Text>
+            <Text style={styles.numbersBlack}>
+              {MyComponent(dateParsed, 'AppleScab', 'dayDegreeDay')}
+            </Text>
+          </View>
+          // Rainfall
+          <View style={styles.degreeDayTilePink}>
+            <Text style={styles.tileTextBlack}>RainFall:{'\n'}</Text>
+            <Text style={styles.numbersBlack}>
+              {MyComponent(dateParsed, 'Rain', 'dayRainfall')}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.column}>
+          // Humidity
+          <View style={styles.degreeDayTileGreen}>
+            <Text style={styles.tileTextWhite}>Humidity:{'\n'}</Text>
+            <Text style={styles.numbersWhite}>
+              {MyComponent(dateParsed, 'Humidity', 'dayAverage')}
+            </Text>
+          </View>
+          // Day low tempature
+          <View style={styles.degreeDayTileBlue}>
+            <Text style={styles.tileTextWhite}>Day Low:{'\n'}</Text>
+            <Text style={styles.numbersWhite}>
+              {MyComponent(dateParsed, 'Temperature', 'dayLow')}
+            </Text>
+          </View>
+          // Day high tempature
+          <View style={styles.degreeDayTileYellow}>
+            <Text style={styles.tileTextBlack}>Day High:{'\n'}</Text>
+            <Text style={styles.numbersBlack}>
+              {MyComponent(dateParsed, 'Temperature', 'dayHigh')}
+            </Text>
+          </View>
+          // Day average tempature
+          <View style={styles.degreeDayTilePink}>
+            <Text style={styles.tileTextBlack}>Tempature:{'\n'}</Text>
+            <Text style={styles.numbersBlack}>
+              {MyComponent(dateParsed, 'Temperature', 'dayAverage')}
+            </Text>
+          </View>
+        </View>
       </View>
     </>
   );
 };
-
 const styles = StyleSheet.create({
+  column: {
+    flex: 1, // Each column takes up equal space
+    marginHorizontal: 5, // Space between the columns
+  },
   sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+    flexDirection: 'row', // Align items in a row
+    justifyContent: 'space-between', // Space out the columns
+    padding: 10,
   },
   titleContainer: {
     textAlign: 'center',
-    backgroundColor: '#45474a',
   },
   sectionTitle: {
     fontSize: 24,
@@ -157,16 +201,67 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 25,
     textAlign: 'center',
+    color: 'white',
   },
   title: {
     fontSize: 25,
     textAlign: 'center',
+    color: 'white',
   },
   degreeDays: {
     fontSize: 25,
     textAlign: 'left',
   },
-  numbers: {
+  degreeDayTilePink: {
+    backgroundColor: 'pink',
+    fontSize: 20,
+    width: 150,
+    height: 100,
+    margin: 5,
+    justifyContent: 'center', //Centered vertically
+    alignItems: 'center', //Centered horizontally
+  },
+  degreeDayTileGreen: {
+    backgroundColor: 'green',
+    fontSize: 20,
+    width: 150,
+    height: 100,
+    margin: 5,
+    justifyContent: 'center', //Centered vertically
+    alignItems: 'center', //Centered horizontally
+  },
+  degreeDayTileBlue: {
+    backgroundColor: 'blue',
+    fontSize: 20,
+    width: 150,
+    height: 100,
+    margin: 5,
+    justifyContent: 'center', //Centered vertically
+    alignItems: 'center', //Centered horizontally
+  },
+  degreeDayTileYellow: {
+    backgroundColor: 'yellow',
+    fontSize: 20,
+    width: 150,
+    height: 100,
+    margin: 5,
+    justifyContent: 'center', //Centered vertically
+    alignItems: 'center', //Centered horizontally
+  },
+  tileTextWhite: {
+    fontSize: 20,
+    color: 'white',
+  },
+  tileTextBlack: {
+    fontSize: 20,
+    color: 'black',
+  },
+  numbersWhite: {
     fontSize: 25,
+    color: 'white',
+  },
+  numbersBlack: {
+    fontSize: 25,
+    color: 'black',
   },
 });
