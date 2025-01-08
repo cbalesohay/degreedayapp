@@ -88,9 +88,79 @@ app.listen(PORT, () => {
   console.log(`Server running on Render port ${PORT}`);
 });
 app.post("/get", sendTest);
+app.post("/post", getProcessedData);
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
+// Error-handling middleware
+app.use((err, req, res, next) => {
+  console.error("Error occurred:", err.message);
+  res.status(err.status || 500).json({
+    error: {
+      message: err.message || "Internal Server Error",
+    },
+  });
+});
+
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+async function processResults(users, species, reqData) {
+  // Process and format the stored data
+  if (reqData === "timeOfLow" || reqData === "timeOfHigh") {
+    storedData[species][reqData] = storedData[species][reqData].slice(11, 16);
+    return storedData[species][reqData];
+  } else {
+    storedData[species][reqData] = storedData[species][reqData].toFixed(2);
+    return Number(storedData[species][reqData]);
+  }
+}
+
+async function fetchAndStoreData(specificDate, dayAfter, species, reqData) {
+  const results = await soacModel.find({
+    device: 12,
+    id: 222,
+    time: {
+      $gte: new Date(specificDate).toISOString(),
+      $lt: new Date(dayAfter).toISOString(),
+    },
+  }).exec();
+
+  console.log("--------------------");
+  console.log("Request Made");
+  console.log("Date: " + JSON.stringify(specificDate));
+  console.log("Species: " + JSON.stringify(species));
+  console.log("reqData: " + JSON.stringify(reqData));
+  console.log("--------------------");
+
+  storeData(results, species, reqData);
+  return results;
+}
+
+async function getProcessedData(req, res, next) {
+  try {
+    // Parse request body
+    const specificDate = req.body.date;
+    const dayAfter = new Date(specificDate);
+    dayAfter.setDate(dayAfter.getDate() + 1);
+    const species = req.body.species;
+    const reqData = req.body.reqData;
+
+    // Fetch and process data
+    await fetchAndStoreData(specificDate, dayAfter, species, reqData);
+    const processedData = await processResults(storedData, species, reqData);
+
+    // Respond with processed data
+    res.json(processedData);
+  } catch (error) {
+    console.error("Error occurred:", error.message);
+    next(error); // Pass the error to error-handling middleware
+  }
+}
+
+// Exporting wrapped in asyncHandler for consistent error handling
+// module.exports = asyncHandler(sendTest);
 
 async function sendTest(req, res) {
   let specificDate = req.body.date;
@@ -100,6 +170,7 @@ async function sendTest(req, res) {
   dayBefore.setDate(dayBefore.getDate() - 1);
   let species = req.body.species;
   let reqData = req.body.reqData;
+
   const results = await soacModel
     .find({
       device: 12,
