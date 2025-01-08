@@ -5,7 +5,7 @@ export const FetchData = (selectedDate, selectedSpecies, selectedReqData) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState('');
-  const url = 'https://degreeday.onrender.com/get';
+  const url = 'https://degreeday.onrender.com/post';
   // const url = 'http://loacalhost:8080/get';
   const info = {
     date: selectedDate,
@@ -38,7 +38,7 @@ export const FetchData = (selectedDate, selectedSpecies, selectedReqData) => {
       setIsLoading(false); // Stop loading indicator
     }
   };
-  
+
   useEffect(() => {
     fetchData();
   }, [selectedDate]);

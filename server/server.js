@@ -88,7 +88,7 @@ app.listen(PORT, () => {
   console.log(`Server running on Render port ${PORT}`);
 });
 app.post("/get", sendTest);
-app.post("/post", getProcessedData);
+app.post("/post", asyncHandler(getProcessedData));
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
@@ -118,14 +118,26 @@ async function processResults(users, species, reqData) {
 }
 
 async function fetchAndStoreData(specificDate, dayAfter, species, reqData) {
-  const results = await soacModel.find({
+  // Construct the query to filter data based on specificDate
+  const query = {
     device: 12,
     id: 222,
     time: {
       $gte: new Date(specificDate).toISOString(),
       $lt: new Date(dayAfter).toISOString(),
     },
-  }).exec();
+  };
+
+  // Specify the fields to return in the projection (rainfall, humidity, temperature)
+  const projection = {
+    total_rainfall: 1,
+    humidity: 1,
+    temperature: 1,
+    _id: 0, // Exclude the _id field
+  };
+
+  // Fetch the data based on the constructed query and projection
+  const results = await soacModel.find(query, projection).exec();
 
   console.log("--------------------");
   console.log("Request Made");
