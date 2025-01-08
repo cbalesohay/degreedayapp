@@ -147,6 +147,7 @@ async function fetchAndStoreData(specificDate, dayAfter, species, reqData) {
   console.log("Species: " + JSON.stringify(species));
   console.log("reqData: " + JSON.stringify(reqData));
   console.log("--------------------");
+  console.log('Received request data:', req.body);
 
   storeData(results, species, reqData);
   return results;

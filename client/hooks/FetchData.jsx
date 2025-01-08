@@ -13,8 +13,10 @@ export const FetchData = (selectedDate, selectedSpecies, selectedReqData) => {
     reqData: selectedReqData,
   };
 
-  const fetchData = async () => {
+  const fetchData = async (info) => {
     setIsLoading(true);
+    setIsError(false);  // Reset error state before starting the request
+    setError('');
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -40,8 +42,17 @@ export const FetchData = (selectedDate, selectedSpecies, selectedReqData) => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, [selectedDate]);
+    let isMounted = true; // Track if the component is still mounted
+
+    if (isMounted) {
+      fetchData(info); // Call fetchData when the dependencies change
+    }
+
+    // Cleanup function to prevent setting state after unmount
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedDate, selectedSpecies, selectedReqData]); // Only rerun when dependencies change
 
   return {data, isLoading, error, isError};
 };
