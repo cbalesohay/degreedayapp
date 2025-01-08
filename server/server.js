@@ -76,6 +76,11 @@ let storedData = {
 //   console.log("Mongoose is connected!!!");
 // });
 
+
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
 mongoose
   .connect(MONGODB_URI)
   .then(() => console.log("Connected to MongoDB"))
@@ -102,9 +107,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-const asyncHandler = (fn) => (req, res, next) => {
-  Promise.resolve(fn(req, res, next)).catch(next);
-};
 
 async function processResults(users, species, reqData) {
   // Process and format the stored data
