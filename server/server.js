@@ -141,13 +141,17 @@ async function fetchAndStoreData(specificDate, dayAfter, species, reqData) {
   // Fetch the data based on the constructed query and projection
   const results = await soacModel.find(query, projection).exec();
 
+  // If no results found, throw an error
+  if (!results || results.length === 0) {
+    throw new Error('No data found');
+  }
+
   console.log("--------------------");
   console.log("Request Made");
   console.log("Date: " + JSON.stringify(specificDate));
   console.log("Species: " + JSON.stringify(species));
   console.log("reqData: " + JSON.stringify(reqData));
   console.log("--------------------");
-  console.log('Received request data:', req.body);
 
   storeData(results, species, reqData);
   return results;
@@ -161,6 +165,8 @@ async function getProcessedData(req, res, next) {
     dayAfter.setDate(dayAfter.getDate() + 1);
     const species = req.body.species;
     const reqData = req.body.reqData;
+
+    console.log('Received request data:', req.body);
 
     // Fetch and process data
     await fetchAndStoreData(specificDate, dayAfter, species, reqData);
