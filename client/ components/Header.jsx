@@ -1,13 +1,9 @@
 import React from 'react';
 import {
   SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
-  Button,
 } from 'react-native';
 
 export const Header = () => {

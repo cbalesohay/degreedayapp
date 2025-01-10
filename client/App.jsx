@@ -7,11 +7,8 @@
 
 import React from 'react';
 import {useEffect, useState} from 'react';
-import {PropsWithChildren} from 'react';
-import SelectDate from './ components/SelectDate';
 import {DegreeDayScreen} from './screens/DegreeDayScreen';
-import {MetricDayScreen} from './screens/MetricDayScreen';
-import {Header} from './ components/Header';
+import { backgroundColorPrimary } from './constants/constants';
 import {
   SafeAreaView,
   ScrollView,
@@ -20,43 +17,7 @@ import {
   Text,
   useColorScheme,
   View,
-  Button,
 } from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import axios from 'axios';
-// const axios = require('axios').default;
-
-function Section({children, title}) {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -68,7 +29,9 @@ function App() {
 
   const backgroundStyle = {
     // backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    backgroundColor: '#45474a',
+    // backgroundColor: '#45474a',
+    backgroundColor: backgroundColorPrimary,
+    flex: 1,
   };
 
   return (
@@ -85,7 +48,6 @@ function App() {
             flex: 1, // This will make the view take up 100% of the available space
           }}>
           <DegreeDayScreen />
-          {/* <MetricDayScreen /> */}
         </View>
       </ScrollView>
     </SafeAreaView>

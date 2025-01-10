@@ -10,7 +10,7 @@ function SelectDate({date, setDate, children}) {
   return (
     <>
       <View style={styles.container}>
-        <Button title="Select Date" onPress={() => setOpen(true)} />
+        <Button title={'Date'} onPress={() => setOpen(true)}/>
         <DatePicker
           modal
           open={open}

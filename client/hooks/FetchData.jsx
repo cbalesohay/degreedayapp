@@ -33,7 +33,7 @@ export const FetchData = (selectedDate, selectedSpecies, selectedReqData) => {
       // console.log(json); // To check the data recieved
       setData(json); // Update the state with the fetched data
     } catch (err) {
-      console.error('Error occurred:', err.message);
+      console.log('Error occurred:', err.message); // Will log error in console instead of on screen
       setIsError(true); // Set error state if there's an issue
       setError(err.message); // Store the error message for debugging
     } finally {
