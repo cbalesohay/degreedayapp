@@ -5,6 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { spotifyWhite } from '../constants/constants';
 
 export const Header = () => {
   return (
@@ -28,6 +29,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'start',
     margin: 10,
-    color: 'white',
+    color: spotifyWhite,
   },
 });

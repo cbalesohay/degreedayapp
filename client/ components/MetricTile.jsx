@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
 import { tileColorSecondary, tileTextColorPrimary } from '../constants/constants';
 
 // Get screen width for full-width tile

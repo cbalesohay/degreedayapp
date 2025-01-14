@@ -8,7 +8,7 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
 import {DegreeDayScreen} from './screens/DegreeDayScreen';
-import { backgroundColorPrimary } from './constants/constants';
+import {backgroundColorPrimary, spotifyBlack} from './constants/constants';
 import {
   SafeAreaView,
   ScrollView,
@@ -18,6 +18,12 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {IndividualInfoScreen} from './screens/IndividualInfoScreen';
+import store from './app/store'
+import { Provider } from 'react-redux'
+
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -30,26 +36,46 @@ function App() {
   const backgroundStyle = {
     // backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     // backgroundColor: '#45474a',
-    backgroundColor: backgroundColorPrimary,
+    // backgroundColor: backgroundColorPrimary,\
+    backgroundColor: spotifyBlack,
     flex: 1,
   };
 
+  const Stack = createNativeStackNavigator();
+  function RootStack() {
+    return (
+      <Stack.Navigator initialRouteName="Degree">
+        <Stack.Screen name="Degree" component={DegreeDayScreen} />
+        <Stack.Screen name="Individual" component={IndividualInfoScreen} />
+      </Stack.Navigator>
+    );
+  }
+
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            flex: 1, // This will make the view take up 100% of the available space
-          }}>
-          <DegreeDayScreen />
-        </View>
-      </ScrollView>
+      <NavigationContainer>
+        <StatusBar
+          // barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={backgroundStyle}>
+          <View
+            style={{
+              flex: 1, // This will make the view take up 100% of the available space
+            }}>
+            <DegreeDayScreen />
+            {/* <RootStack/> */}
+          </View>
+        </ScrollView>
+      </NavigationContainer>
+
+      {/* <View style={{flex: 1}}>
+        <NavigationContainer>
+          <RootStack />
+        </NavigationContainer>
+      </View> */}
     </SafeAreaView>
   );
 }

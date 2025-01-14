@@ -2,16 +2,19 @@ import React, {Children} from 'react';
 import SelectDate from '../ components/SelectDate';
 import {DegreeTiles} from '../ components/DegreeTiles';
 import {MetricTile} from '../ components/MetricTile';
-import { tileColorPrimary, tileTextColorPrimary } from '../constants/constants';
-import {useEffect, useState} from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import { DisplayData } from '../ components/DisplayData';
+  tileColorPrimary,
+  tileTextColorPrimary,
+  metricsData,
+  spotifyBlack,
+} from '../constants/constants';
+import {useEffect, useState} from 'react';
+import {StyleSheet, Text, View, Button} from 'react-native';
+import {DisplayData} from '../ components/DisplayData';
+import {createStaticNavigation, useNavigation} from '@react-navigation/native';
 
 export const DegreeDayScreen = () => {
+  const navigation = useNavigation();
   const [date, setDate] = useState(new Date());
   const [dateParsed, setDateParsed] = useState(() =>
     new Date().toISOString().slice(0, 10),
@@ -29,75 +32,57 @@ export const DegreeDayScreen = () => {
 
   return (
     <>
-      <View style={styles.titleContainer}>
-        <Text style={styles.sectionTitle}>Degree Day's</Text>
-      </View>
+      <View style={styles.sectionContainer}>
+        <Text style={styles.sectionTitle}>Degree Day</Text>
+        <View>
+          {metricsData.map(metric => {
+            return (
+              <>
+                <DegreeTiles
+                  name={`${metric.name}`}
+                  nameData={metric.nameData}
+                  degreeDays={DisplayData(
+                    dateParsed,
+                    metric.nameData,
+                    'dayDegreeDay',
+                  )}
+                  tempLow={DisplayData(dateParsed, 'Temperature', 'dayLow')}
+                  tempHigh={DisplayData(dateParsed, 'Temperature', 'dayHigh')}
+                  key={metric.id}
+                />
+              </>
+            );
+          })}
       <SelectDate date={date} setDate={setDate}>
-        <Text style={styles.date}><Text>{dateParsed}</Text></Text>
+        <Text style={styles.date}>
+          <Text>{dateParsed}</Text>
+        </Text>
       </SelectDate>
-      <View style={styles.sectionContainer}>
-        <View style={styles.column}>
-          // Western Cherry
-          <DegreeTiles
-            backgroundColor={tileColorPrimary}
-            // backgroundColor={'#e7dac9'} // Option #2
-            textColor={tileTextColorPrimary}
-            text={'Western Cherry:'}>
-            {DisplayData(dateParsed, 'WesternCherry', 'dayDegreeDay')}
-          </DegreeTiles>
-          // Leaf Rollers
-          <DegreeTiles
-            backgroundColor={tileColorPrimary}
-            textColor={tileTextColorPrimary}
-            text={'Leaf Rollers:'}>
-            {DisplayData(dateParsed, 'LeafRollers', 'dayDegreeDay')}
-          </DegreeTiles>
-        </View>
-        <View style={styles.column}>
-          // Codling Moth
-          <DegreeTiles
-            backgroundColor={tileColorPrimary}
-            textColor={tileTextColorPrimary}
-            text={'Codling Moth:'}>
-            {DisplayData(dateParsed, 'CodlingMoth', 'dayDegreeDay')}
-          </DegreeTiles>
-          // Apple Scab
-          <DegreeTiles
-            backgroundColor={tileColorPrimary}
-            textColor={tileTextColorPrimary}
-            text={'Apple Scab:'}>
-            {DisplayData(dateParsed, 'AppleScab', 'dayDegreeDay')}
-          </DegreeTiles>
         </View>
       </View>
-      <View style={styles.sectionContainer}>
+      {/* <View style={styles.sectionContainer}>
         <MetricTile
           humidity={DisplayData(dateParsed, 'Humidity', 'dayAverage')}
           rain={DisplayData(dateParsed, 'Rain', 'dayRainfall')}
           highTemp={DisplayData(dateParsed, 'Temperature', 'dayHigh')}
           lowTemp={DisplayData(dateParsed, 'Temperature', 'dayLow')}
         />
-      </View>
+      </View> */}
     </>
   );
 };
 const styles = StyleSheet.create({
-  column: {
-    flex: 1, // Each column takes up equal space
-    marginHorizontal: 5, // Space between the columns
-  },
   sectionContainer: {
-    flexDirection: 'row', // Align items in a row
-    justifyContent: 'space-between', // Space out the columns
-    padding: 10,
+    padding: 20,
+    backgroundColor: spotifyBlack,
   },
   titleContainer: {
-    textAlign: 'center',
+    padding: 20,
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
-    textAlign: 'center',
+    textAlign: 'left',
     color: 'white',
   },
   date: {

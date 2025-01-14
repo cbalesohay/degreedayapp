@@ -1,13 +1,7 @@
 import React, {Children} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
-const {width} = Dimensions.get('window');
+import SelectDate from '../ components/SelectDate';
+import {DegreeTiles} from '../ components/DegreeTiles';
+import {MetricTile} from '../ components/MetricTile';
 import {
   tileTextColorPrimary,
   spotifyDarkGrey,
@@ -15,43 +9,35 @@ import {
   spotifyWhite,
   spotifyGreen,
 } from '../constants/constants';
-import {createStaticNavigation, useNavigation} from '@react-navigation/native';
+import {useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {DisplayData} from '../ components/DisplayData';
 
-export const DegreeTiles = ({
-  name,
-  nameData,
-  degreeDays,
-  tempLow,
-  tempHigh,
+export const IndividualInfoScreen = ({
+  navigation,
+  route,
 }) => {
-  const navigation = useNavigation();
   return (
     <>
-      <TouchableOpacity
-        style={styles.tile}
-        onPress={() => {
-          // After Global State is implemented, this will be replaced with a global state call
-          navigation.navigate('Individual', {
-            name: name,
-            nameData: nameData,
-            degreeDays: degreeDays,
-            tempLow: tempLow,
-            tempHigh: tempHigh,
-          });
-        }}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.degreeDayMetric}>{degreeDays}</Text>
+      <View style={styles.tile}>
+        <Text style={styles.name}>{route.params.name}</Text>
+        <Text style={styles.degreeDayMetric}>{route.params.degreeDays}</Text>
         <View style={styles.tempContainer}>
           <Text style={styles.tempMetric}>
             L<Text style={styles.colon}>:</Text>
-            {tempLow}
+            {route.params.tempLow}
           </Text>
           <Text style={styles.tempMetric}>
             H<Text style={styles.colon}>:</Text>
-            {tempHigh}
+            {route.params.tempHigh}
           </Text>
         </View>
-      </TouchableOpacity>
+        <Text>This is {route.params.name}'s profile</Text>
+        <Text>This is {route.params.nameData}'s profile</Text>
+        <Text>This is {route.params.degreeDays}'s profile</Text>
+        <Text>This is {route.params.tempLow}'s profile</Text>
+        <Text>This is {route.params.tempHigh}'s profile</Text>
+      </View>
     </>
   );
 };
