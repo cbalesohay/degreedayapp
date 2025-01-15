@@ -1,4 +1,4 @@
-import React, {Children} from 'react';
+import React, {Children, useEffect, useState} from 'react';
 import SelectDate from '../ components/SelectDate';
 import {DegreeTiles} from '../ components/DegreeTiles';
 import {MetricTile} from '../ components/MetricTile';
@@ -8,13 +8,10 @@ import {
   metricsData,
   spotifyBlack,
 } from '../constants/constants';
-import {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Button} from 'react-native';
+import {StyleSheet, Text, View, Button, ActivityIndicator} from 'react-native';
 import {DisplayData} from '../ components/DisplayData';
-import {createStaticNavigation, useNavigation} from '@react-navigation/native';
 
 export const DegreeDayScreen = () => {
-  const navigation = useNavigation();
   const [date, setDate] = useState(new Date());
   const [dateParsed, setDateParsed] = useState(() =>
     new Date().toISOString().slice(0, 10),
@@ -35,29 +32,29 @@ export const DegreeDayScreen = () => {
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionTitle}>Degree Day</Text>
         <View>
-          {metricsData.map(metric => {
-            return (
-              <>
-                <DegreeTiles
-                  name={`${metric.name}`}
-                  nameData={metric.nameData}
-                  degreeDays={DisplayData(
-                    dateParsed,
-                    metric.nameData,
-                    'dayDegreeDay',
-                  )}
-                  tempLow={DisplayData(dateParsed, 'Temperature', 'dayLow')}
-                  tempHigh={DisplayData(dateParsed, 'Temperature', 'dayHigh')}
-                  key={metric.id}
-                />
-              </>
-            );
-          })}
-      <SelectDate date={date} setDate={setDate}>
-        <Text style={styles.date}>
-          <Text>{dateParsed}</Text>
-        </Text>
-      </SelectDate>
+          {metricsData.map(metric => (
+            <DegreeTiles
+              key={metric.id}
+              name={`${metric.name}`}
+              nameData={metric.nameData}
+              degreeDays={DisplayData(
+                dateParsed,
+                metric.nameData,
+                'dayDegreeDay',
+              )}
+              tempLow={DisplayData(dateParsed, 'Temperature', 'dayLow')}
+              tempHigh={DisplayData(dateParsed, 'Temperature', 'dayHigh')}
+            />
+          ))}
+          ;
+          <View style={{paddingTop: 30}}>
+            <Text style={styles.sectionTitle}>For Testing Purposes</Text>
+            <SelectDate date={date} setDate={setDate}>
+              <Text style={styles.date}>
+                <Text>{dateParsed}</Text>
+              </Text>
+            </SelectDate>
+          </View>
         </View>
       </View>
       {/* <View style={styles.sectionContainer}>

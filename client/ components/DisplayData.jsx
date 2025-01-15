@@ -10,9 +10,9 @@ import {
 export const DisplayData = (date, species, reqData) => {
     const {data, isLoading, error, isError} = FetchData(date, species, reqData);
 
-    if (isLoading) return <Text>Loading...</Text>;
-    if (isError) return <Text>No data{console.log(error)}</Text>;
-
+    // return (isLoading ? true : false);
+    // return (isError ? true : false);
+    
     if (data != null && !isNaN(data)) {
       if (species === 'Rain') {
         return <Text>{data.toFixed(2)} in.</Text>;

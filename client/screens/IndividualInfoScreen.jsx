@@ -1,42 +1,20 @@
-import React, {Children} from 'react';
-import SelectDate from '../ components/SelectDate';
-import {DegreeTiles} from '../ components/DegreeTiles';
-import {MetricTile} from '../ components/MetricTile';
+import React, {Children, useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import {
-  tileTextColorPrimary,
   spotifyDarkGrey,
   spotifyLightGrey,
   spotifyWhite,
+  spotifyBlack,
   spotifyGreen,
+  metricsData,
 } from '../constants/constants';
-import {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {DisplayData} from '../ components/DisplayData';
+import {PageIndicator} from '../ components/PageIndicator';
 
-export const IndividualInfoScreen = ({
-  navigation,
-  route,
-}) => {
+export const IndividualInfoScreen = () => {
   return (
     <>
-      <View style={styles.tile}>
-        <Text style={styles.name}>{route.params.name}</Text>
-        <Text style={styles.degreeDayMetric}>{route.params.degreeDays}</Text>
-        <View style={styles.tempContainer}>
-          <Text style={styles.tempMetric}>
-            L<Text style={styles.colon}>:</Text>
-            {route.params.tempLow}
-          </Text>
-          <Text style={styles.tempMetric}>
-            H<Text style={styles.colon}>:</Text>
-            {route.params.tempHigh}
-          </Text>
-        </View>
-        <Text>This is {route.params.name}'s profile</Text>
-        <Text>This is {route.params.nameData}'s profile</Text>
-        <Text>This is {route.params.degreeDays}'s profile</Text>
-        <Text>This is {route.params.tempLow}'s profile</Text>
-        <Text>This is {route.params.tempHigh}'s profile</Text>
+      <View style={styles.sectionContainer}>
+        <PageIndicator totalDots={metricsData.length} activeIndex={0} />
       </View>
     </>
   );
@@ -83,5 +61,9 @@ const styles = StyleSheet.create({
   },
   colon: {
     color: spotifyGreen,
+  },
+  sectionContainer: {
+    padding: 20,
+    backgroundColor: spotifyBlack,
   },
 });
